@@ -9,8 +9,8 @@ public class PlayerTankController : MonoBehaviour
     private Transform bulletSpawnPoint;
     private float curSpeed, targetSpeed, rotSpeed;
     private float turretRotSpeed = 10.0f;
-    private float maxForwardSpeed = 300.0f;
-    private float maxBackwardSpeed = -300.0f;
+    private float maxForwardSpeed = 10.0f;
+    private float maxBackwardSpeed = -20.0f;
 
     // Bullet shotting rate
     protected float shootRate = 0.5f;
@@ -32,6 +32,12 @@ public class PlayerTankController : MonoBehaviour
         UpdateControl();
     }
 
+    void OnEndGame()
+    {
+        // dont allow control when the game ends
+        this.enabled = false;
+    }
+
     void UpdateWeapon()
     {
         if (Input.GetMouseButton(0))
@@ -50,7 +56,7 @@ public class PlayerTankController : MonoBehaviour
 
     void UpdateControl()
     {
-        // Mouse Aim ---------------------
+        // Mouse Aim --------------------------------------------------------------------------------------------------
         // Generate a plane that intersects the transform's position with an upwards normal
         Plane playerPlane = new Plane(Vector3.up, transform.position + new Vector3(0, 0, 0));
 
@@ -70,5 +76,31 @@ public class PlayerTankController : MonoBehaviour
 
             Turret.transform.rotation = Quaternion.Slerp(Turret.transform.rotation, targetRotation, Time.deltaTime * turretRotSpeed);
         }
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            targetSpeed = maxForwardSpeed;
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            targetSpeed = maxBackwardSpeed;
+        }
+        else
+        {
+            targetSpeed = 0;
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Rotate(0, -rotSpeed * Time.deltaTime, 0.0f);
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            transform.Rotate(0, rotSpeed * Time.deltaTime, 0.0f);
+        }
+
+        // Determine current speed
+        curSpeed = Mathf.Lerp(curSpeed, targetSpeed, 7.0f * Time.deltaTime);
+        transform.Translate(Vector3.forward * Time.deltaTime * curSpeed);
     }
 }

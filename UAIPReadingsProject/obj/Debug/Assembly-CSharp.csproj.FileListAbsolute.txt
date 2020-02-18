@@ -1,0 +1,2 @@
+D:\C#Projects\AiProgramming\UAIPChapterReadings\UAIPReadingsProject\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+D:\C#Projects\AiProgramming\UAIPChapterReadings\UAIPReadingsProject\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
